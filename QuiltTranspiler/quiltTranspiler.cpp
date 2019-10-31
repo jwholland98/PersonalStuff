@@ -4,6 +4,7 @@
 #include <regex>
 #include <iomanip>
 #include <fstream>
+#include <algorithm>
 
 using namespace std;
 
@@ -24,20 +25,26 @@ class Tokenizer{
     string line;
     unsigned pos;
     unsigned lineNumber;
+    unsigned linePos;
     public:
-    int getPosition() { return pos; }
+    int getPosition() { return linePos; }
     int getLineNumber() { return lineNumber; }
     void start(string newLine) {
         line=newLine;
         pos=0;
         lineNumber=1;
+        linePos=1;
     }
     Token peek() {
         smatch sm;
         string remaining=line.substr(pos);
         while (remaining[0]==' ' || remaining[0]=='\t') {
-          if (remaining[0]=='\t') lineNumber++;
+          if (remaining[0]=='\t') {
+			  lineNumber++;
+			  linePos=0;
+		  }
 		  pos++;
+		  linePos++;
           remaining=line.substr(pos);
 		}
 		//cerr << remaining << endl;
@@ -65,22 +72,23 @@ class Tokenizer{
               if (line[l]=='\t') break;
               l++;
           }
-        l+=pos+(lineNumber)*9;  
+        l+=linePos+(lineNumber-1)*1;  
 		cout << setw(l) << '^'<< endl;
 	}
     Token next() {
         Token t;
         t=peek();
         pos+=t.value.size();
+        linePos+=t.value.size();
         return t;
     }
 };
 
 class ExpressionTree{
+    public:
     ExpressionTree *left,*right;
     vector<ExpressionTree *> parameters;
     Token operation;
-    public:
     ExpressionTree(Token t=Token(),ExpressionTree *newLeft=NULL,ExpressionTree *newRight=NULL){
         operation=t;
         left=newLeft;
@@ -97,12 +105,12 @@ class ExpressionTree{
     void show(ostream &out) {
         if (left!=NULL) {
 			left->show(out);
-			out << "<--";
+			out << "<=";
 		}
         out << "[" <<operation.value<<"]"; 
         if (right!=NULL) {
 			out <<
-			"-->";
+			"=>";
 			right->show(out);
 		}
 		if (parameters.size()>0) {
@@ -122,13 +130,13 @@ class SymbolEntry {
 
 typedef map <string, SymbolEntry > SymbolTable;
 SymbolTable symbolTable;
-typedef SymbolTable::iterator symbolIterator;
+typedef SymbolTable::iterator SymbolIterator;
 ExpressionTree *inStatement;
 
 void summary(ostream &out) {
     out << endl<< "Syntax Expression Tree Summary" <<endl;
     out << setfill('-') << setw(20) << ' ' <<endl;
-	for (symbolIterator i=symbolTable.begin();i!=symbolTable.end();i++) {
+	for (SymbolIterator i=symbolTable.begin();i!=symbolTable.end();i++) {
 		out << "Symbol: "<< i->first;
         if (i->second.parameters.size()>0) {
 		  out << " Fun" << '(';
@@ -385,6 +393,148 @@ class Parser{
     }
 };
 
+class Shape {
+	vector <Shape *> shapes;
+	string id,transform,rotation;
+	protected:
+	int w,h;
+	public:
+	int getW() { return w; }
+	int getH() { return h; }
+	void setId(string newId) { id=newId; }
+	void setTransform(int tx,int ty) {
+		stringstream ss;
+		ss << "translate("<< tx << ' ' << ty << ") ";
+		transform=ss.str();
+	}
+	void setRotation(int tx, int ty) {
+		int t=w;
+		w=h;
+		h=t;
+		stringstream ss;
+		ss << "rotate(90 " <<tx << ' ' << ty << ") ";
+		rotation=ss.str(); }
+	void add(Shape *other) {
+	    w+=other->w;
+	    h=other->h;
+		shapes.push_back(other);
+	}
+	virtual void output(ostream &out) {
+		out << "<g ";
+		if (id.size()>0) out << "id='"<<id << "'";
+		if (transform.size()>0 || rotation.size()>0){
+			 out << "transform='";
+			 if (transform.size()>0)  out << transform << ' ';
+		     if (rotation.size()>0) out << rotation;
+		     out << "'";
+	    }
+		out << ">" << endl;
+		for(Shape *s:shapes) s->output(out);
+        out << "</g>" << endl;
+	}
+};
+
+const bool A=false;
+const bool B=true;
+class Literal:public Shape {
+	bool which;
+	public:
+	Literal(bool newWhich) { 
+		which=newWhich; 
+		w=20;
+		h=20;
+	}
+	void output(ostream &out) {
+		string color;
+		if (which==A) color="fill = 'tomato' id='a'"; 
+		else color="fill = 'lightgreen' id='b'"; 
+		out << "<rect  width = '20' height = '20' "<<color<<" />"<<endl;
+		if (which==B) color="fill = 'tomato' "; 
+		else color="fill = 'lightgreen'" ; 
+        out << "<circle cx='10' cy='5' r='5' "<<color<<"/>" <<endl;
+	}
+};
+
+class Value:public Shape {
+	string id;
+	public:
+	Value(string newId) { 
+		w=20; // visit later
+		h=20;
+		id=newId;
+	}
+	void output(ostream &out) {
+		out << "<use  href = '#"<< id <<"' />"<<endl;
+	}
+};
+
+class CodeGenerator{
+	public:
+	static void preamble(ostream &out) {
+        out << "<svg viewBox='-100 -100 200 200' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>" << endl;
+        out << "<line x1='0' y1='-40' x2='0' y2='40' style='stroke: black'/>"<<endl;
+        out << "<line x1='-40' y1='0' x2='40' y2='0' style='stroke: black'/>"<<endl;
+	}
+	static void postamble(ostream &out)  {
+        out << "</svg>"<<endl;
+	}
+	void loadSymbols(ostream &out,const SymbolTable &table) {
+	}
+	Shape *processRecurse(const ExpressionTree *tree) {
+		if (tree->operation.type==QLIT) {
+			Shape *l;
+			if (tree->operation.value=="a") l=new Literal(A);
+			else l=new Literal(B);
+			Shape *group=new Shape;
+			group->add(l);
+			return group; 
+		}
+		if (tree->operation.type==ID) {
+			if (tree->parameters.size()==0) {  // Use a Val
+				Shape *v=new Value(tree->operation.value);
+			    Shape *group=new Shape;
+			    group->add(v);
+			    return group; 				
+			}
+		}
+		if (tree->operation.type==KEYWORD && tree->operation.value=="turn") {
+			Shape *turnExp=new Shape;
+			Shape *sub=processRecurse(tree->right);
+            turnExp->setRotation(0,0);
+            //turnExp->setTransform(sub->getH(),0);
+            turnExp->add(sub);
+            return turnExp;
+		}
+		if (tree->operation.type==KEYWORD && tree->operation.value=="sew") {
+            Shape *sewExp=new Shape;
+            Shape *subL=processRecurse(tree->left);
+            subL->setTransform(subL->getW(),0);
+            sewExp->add(subL);
+            Shape *subR=processRecurse(tree->right);
+            subR->setTransform(subL->getW()+subR->getW(),0);
+            sewExp->add(subR);
+            return sewExp;
+		}
+		return NULL;
+	}
+	void process(ostream &out,const ExpressionTree *tree) {
+		preamble(out);
+		for(SymbolIterator it=symbolTable.begin();it!=symbolTable.end();it++) {
+			if (it->second.parameters.size()==0)  {
+				out <<"<g visibility='hidden'>" << endl;
+  				out <<"  <g id='" << it->first << "'>" << endl;
+			    Shape *val=processRecurse(it->second.expression);
+			    val->output(out);
+			    out << "  </g>" << endl;
+			    out << "</g>" << endl;
+		    }
+		}
+		Shape *s=processRecurse(tree);
+		s->output(out);
+		postamble(out);
+	}
+};
+
 int main(int argc, char **argv) {
     ifstream in;
     stringstream ss;
@@ -394,10 +544,16 @@ int main(int argc, char **argv) {
         getline(in,line);
         ss << line << '\t';
     }
+    in.close();
     Parser p;
     if (p.scan(ss.str())) {
 		cerr << "Good!" << endl;
         summary(cout);
+        ofstream out;
+        out.open(argv[2]);
+        CodeGenerator cg;
+        cg.process(out,inStatement);
+        out.close();
         return 0;
 	}
 	else {
@@ -409,11 +565,7 @@ int main(int argc, char **argv) {
 
 
 /*
-   function ted(x,y)
-   ted=(x,y)=>{
-     document.getElementById(x).innerHTML=y;
-} 
- 
+Sample "Assembly for SVG"
 <svg viewBox="-40 0 150 100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <g transform="rotate(-10 50 100)
                 translate(0 10)">
@@ -425,4 +577,16 @@ int main(int argc, char **argv) {
   </g>
   <use xlink:href="#a"/>
 </svg>
+
+** Val Declaration ** 
+<g visibility='hidden'>
+  <g id='x'>
+    <rect  width = '20' height = '20' fill = 'lightgreen' />
+    <circle cx='10' cy='5' r='5' fill = 'tomato' />
+  </g>
+</g>
+
+** Val use **
+  <use href="#x"/>
+
 */
