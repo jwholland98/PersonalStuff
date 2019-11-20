@@ -30,7 +30,7 @@ void loop(){
   digitalWrite(INA1, LOW);
   cyclePWM(10);
   //Backwards
-  digitalWrite(INA0, HIGH);
-  digitalWrite(INA1, LOW);
-  digitalWrite(INA0, HIGH);
+  digitalWrite(INA0, LOW);
+  digitalWrite(INA1, HIGH);
+  cyclePWM(10);
 }
