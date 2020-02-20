@@ -1,0 +1,217 @@
+<!Doctype html>
+<html>
+<head>
+    <title>Firewall Rules</title>
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    </script>
+</head>
+<body>
+    <h1>The following are the current rules for iptables:</h1>
+    <br>
+    <br>
+    <br>
+    <p>
+<br>
+Chain INPUT (policy DROP)
+<br>
+num  target     prot opt source               destination         
+<br>
+1    ufw-before-logging-input  all  --  anywhere             anywhere            
+<br>
+2    ufw-before-input  all  --  anywhere             anywhere            
+<br>
+3    ufw-after-input  all  --  anywhere             anywhere            
+<br>
+4    ufw-after-logging-input  all  --  anywhere             anywhere            
+<br>
+5    ufw-reject-input  all  --  anywhere             anywhere            
+<br>
+6    ufw-track-input  all  --  anywhere             anywhere            
+<br>
+
+<br>
+Chain FORWARD (policy DROP)
+<br>
+num  target     prot opt source               destination         
+<br>
+1    ufw-before-logging-forward  all  --  anywhere             anywhere            
+<br>
+2    ufw-before-forward  all  --  anywhere             anywhere            
+<br>
+3    ufw-after-forward  all  --  anywhere             anywhere            
+<br>
+4    ufw-after-logging-forward  all  --  anywhere             anywhere            
+<br>
+5    ufw-reject-forward  all  --  anywhere             anywhere            
+<br>
+6    ufw-track-forward  all  --  anywhere             anywhere            
+<br>
+
+<br>
+Chain OUTPUT (policy ACCEPT)
+<br>
+num  target     prot opt source               destination         
+<br>
+1    ufw-before-logging-output  all  --  anywhere             anywhere            
+<br>
+2    ufw-before-output  all  --  anywhere             anywhere            
+<br>
+3    ufw-after-output  all  --  anywhere             anywhere            
+<br>
+4    ufw-after-logging-output  all  --  anywhere             anywhere            
+<br>
+5    ufw-reject-output  all  --  anywhere             anywhere            
+<br>
+6    ufw-track-output  all  --  anywhere             anywhere            
+<br>
+
+<br>
+Chain ufw-before-logging-input (1 references)
+<br>
+num  target     prot opt source               destination         
+<br>
+
+<br>
+Chain ufw-before-logging-output (1 references)
+<br>
+num  target     prot opt source               destination         
+<br>
+
+<br>
+Chain ufw-before-logging-forward (1 references)
+<br>
+num  target     prot opt source               destination         
+<br>
+
+<br>
+Chain ufw-before-input (1 references)
+<br>
+num  target     prot opt source               destination         
+<br>
+1    ACCEPT     all  --  anywhere             anywhere            
+<br>
+2    ACCEPT     all  --  anywhere             anywhere             ctstate RELATED,ESTABLISHED
+<br>
+3    ufw-logging-deny  all  --  anywhere             anywhere             ctstate INVALID
+<br>
+4    DROP       all  --  anywhere             anywhere             ctstate INVALID
+<br>
+5    DROP       icmp --  anywhere             anywhere             icmp echo-request
+<br>
+6    ACCEPT     icmp --  anywhere             anywhere             icmp destination-unreachable
+<br>
+7    ACCEPT     icmp --  anywhere             anywhere             icmp time-exceeded
+<br>
+8    ACCEPT     icmp --  anywhere             anywhere             icmp parameter-problem
+<br>
+9    ACCEPT     icmp --  anywhere             anywhere             icmp echo-request
+<br>
+10   ACCEPT     udp  --  anywhere             anywhere             udp spt:bootps dpt:bootpc
+<br>
+11   ufw-not-local  all  --  anywhere             anywhere            
+<br>
+12   ACCEPT     udp  --  anywhere             224.0.0.251          udp dpt:mdns
+<br>
+13   ACCEPT     udp  --  anywhere             239.255.255.250      udp dpt:1900
+<br>
+14   ufw-user-input  all  --  anywhere             anywhere            
+<br>
+
+<br>
+Chain ufw-before-output (1 references)
+<br>
+num  target     prot opt source               destination         
+<br>
+1    ACCEPT     all  --  anywhere             anywhere            
+<br>
+2    ACCEPT     all  --  anywhere             anywhere             ctstate RELATED,ESTABLISHED
+<br>
+3    ufw-user-output  all  --  anywhere             anywhere            
+<br>
+
+<br>
+Chain ufw-before-forward (1 references)
+<br>
+num  target     prot opt source               destination         
+<br>
+1    ACCEPT     all  --  anywhere             anywhere             ctstate RELATED,ESTABLISHED
+<br>
+2    ACCEPT     icmp --  anywhere             anywhere             icmp destination-unreachable
+<br>
+3    ACCEPT     icmp --  anywhere             anywhere             icmp time-exceeded
+<br>
+4    ACCEPT     icmp --  anywhere             anywhere             icmp parameter-problem
+<br>
+5    ACCEPT     icmp --  anywhere             anywhere             icmp echo-request
+<br>
+6    ufw-user-forward  all  --  anywhere             anywhere            
+<br>
+
+<br>
+Chain ufw-after-input (1 references)
+<br>
+num  target     prot opt source               destination         
+<br>
+1    ufw-skip-to-policy-input  udp  --  anywhere             anywhere             udp dpt:netbios-ns
+<br>
+2    ufw-skip-to-policy-input  udp  --  anywhere             anywhere             udp dpt:netbios-dgm
+<br>
+3    ufw-skip-to-policy-input  tcp  --  anywhere             anywhere             tcp dpt:netbios-ssn
+<br>
+4    ufw-skip-to-policy-input  tcp  --  anywhere             anywhere             tcp dpt:microsoft-ds
+<br>
+5    ufw-skip-to-policy-input  udp  --  anywhere             anywhere             udp dpt:bootps
+<br>
+6    ufw-skip-to-policy-input  udp  --  anywhere             anywhere             udp dpt:bootpc
+<br>
+7    ufw-skip-to-policy-input  all  --  anywhere             anywhere             ADDRTYPE match dst-type BROADCAST
+<br>
+
+<br>
+Chain ufw-after-output (1 references)
+<br>
+num  target     prot opt source               destination         
+<br>
+
+<br>
+Chain ufw-after-forward (1 references)
+<br>
+num  target     prot opt source               destination         
+<br>
+
+<br>
+Chain ufw-after-logging-input (1 references)
+<br>
+num  target     prot opt source               destination         
+<br>
+1    LOG        all  --  anywhere             anywhere             limit: avg 3/min burst 10 LOG level warning prefix "[UFW BLOCK] "
+<br>
+
+<br>
+Chain ufw-after-logging-output (1 references)
+<br>
+num  target     prot opt source               destination         
+<br>
+
+<br>
+Chain ufw-after-logging-forward (1 references)
+<br>
+num  target     prot opt source               destination         
+<br>
+1    LOG        all  --  anywhere             anywhere             limit: avg 3/min burst 10 LOG level warning prefix "[UFW BLOCK] "
+<br>
+
+<br>
+Chain ufw-reject-input (1 references)
+<br>
+num  target     prot opt source               destination         
+<br>
+
+<br>
+Chain ufw-reject-output (1 references)
+<br>
+num  target     prot opt source               destination         
+<br>
+</p>
+</body>
+</html>
