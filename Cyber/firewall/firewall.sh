@@ -247,7 +247,7 @@ while [[ true ]]; do
     <br>
     <p>" > rules.html
             #echo $(sudo iptables -L --line-number) >> rules.html
-            for i in {0..100}
+            for i in {1..100}
             do
               echo "$(sudo iptables -L --line-number)" | sed -n "$i"p >> rules.html
                 echo "<br>" >> rules.html
