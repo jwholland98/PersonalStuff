@@ -19,7 +19,7 @@ while [[ true ]]; do
     echo "6.) Quit"
     read -p ""
     clear
-    if [[ $REPLY =~ ^[0-6]$ ]]; then
+    if [[ $REPLY =~ ^[1-6]$ ]]; then
         if (($REPLY == 1 )); then
             cmd="sudo iptables -A"
             while [[ true ]]; do
@@ -30,7 +30,7 @@ while [[ true ]]; do
                 echo "4.) Quit"
                 read -p ""
                 clear
-                if [[ $REPLY =~ ^[0-3]$ ]]; then
+                if [[ $REPLY =~ ^[1-4]$ ]]; then
                     if (($REPLY == 1 )); then
                         cmd+=" INPUT"
                         break
@@ -59,7 +59,7 @@ while [[ true ]]; do
                 echo "3.) Quit"
                 read -p ""
                 clear
-                if [[ $REPLY =~ ^[0-2]$ ]]; then
+                if [[ $REPLY =~ ^[1-3]$ ]]; then
                     if (($REPLY == 1 )); then
                         echo "What interface do you want to add? (Examples: eth0, lo, ppp0, etc)"
                         read -p ""
@@ -85,7 +85,7 @@ while [[ true ]]; do
                 echo "3.) Quit"
                 read -p ""
                 clear
-                if [[ $REPLY =~ ^[0-2]$ ]]; then
+                if [[ $REPLY =~ ^[1-3]$ ]]; then
                     if (($REPLY == 1 )); then
                         echo "What protocol do you want to add? (Examples: tcp, udp, udplite, icmp, sctp, icmpv6, etc)"
                         read -p ""
@@ -111,7 +111,7 @@ while [[ true ]]; do
                 echo "3.) Quit"
                 read -p ""
                 clear
-                if [[ $REPLY =~ ^[0-2]$ ]]; then
+                if [[ $REPLY =~ ^[1-3]$ ]]; then
                     if (($REPLY == 1 )); then
                         echo "What source do you want to add?"
                         read -p ""
@@ -137,7 +137,7 @@ while [[ true ]]; do
                 echo "3.) Quit"
                 read -p ""
                 clear
-                if [[ $REPLY =~ ^[0-2]$ ]]; then
+                if [[ $REPLY =~ ^[1-3]$ ]]; then
                     if (($REPLY == 1 )); then
                         echo "What dport do you want to add? (Examples: 22 (SSH), 443 (https), etc)"
                         read -p ""
@@ -166,7 +166,7 @@ while [[ true ]]; do
                 echo "4.) Quit"
                 read -p ""
                 clear
-                if [[ $REPLY =~ ^[0-3]$ ]]; then
+                if [[ $REPLY =~ ^[1-4]$ ]]; then
                     if (($REPLY == 1 )); then
                         cmd+=" ACCEPT"
                         break
@@ -200,7 +200,7 @@ while [[ true ]]; do
                 echo "3.) Output"
                 echo "4.) Quit"
                 read -p ""
-                if [[ $REPLY =~ ^[0-4]$ ]]; then
+                if [[ $REPLY =~ ^[1-4]$ ]]; then
                     if (($REPLY == 1 )); then
                         cmd+=" INPUT"
                         break
