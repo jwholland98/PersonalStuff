@@ -1,6 +1,6 @@
-var scene;
-var camera;
-var renderer;
+//import * as THREE from '/three.js-master/build/three.module.js';
+
+var scene, camera, renderer;
 function init(){
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -10,9 +10,7 @@ function init(){
     document.body.appendChild( renderer.domElement );
 }
 
-var geometry;
-var material;
-var shape;
+var geometry, material, shape;
 var shapes = new Array;
 function makeShape(type){
     if(type=="sphere")
@@ -26,13 +24,21 @@ function makeShape(type){
     camera.position.z = 5;
 }
 
+function loadObj(path){
+    let loader = new OBJLoader2();
+
+    function callbackOnLoad ( object3d ) {
+        scene.add( object3d );
+}
+
+// load a resource from provided URL synchronously
+loader.load( path, callbackOnLoad, null, null, null );
+}
+
 function animate() {
-    /*for(let i=0;i<shapes.length;i++){
-        shapes[i].rotation.x += 0.001;
-        shapes[i].rotation.y += 0.001;
-    }*/
-    shapes[0].rotation.x += 0.001;
-    shapes[1].rotation.y += 0.01;
+    camera.position.z = 5;
+    /*shapes[0].rotation.x += 0.001;
+    shapes[1].rotation.y += 0.01;*/
     requestAnimationFrame( animate );
     renderer.render( scene, camera );
 }
