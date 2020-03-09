@@ -233,28 +233,59 @@ while [[ true ]]; do
             echo ''
         fi
         if (($REPLY == 4 )); then
+            echo "#para{
+  border-style: double;
+}
+
+#head{
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+#lables{
+  text-decoration: underline;
+}
+" > stylesheet.css
             echo "<!Doctype html>
 <html>
 <head>
     <title>Firewall Rules</title>
     <link rel=\"stylesheet\" type=\"text/css\" href=\"stylesheet.css\">
-    </script>
 </head>
 <body>
-    <h1>The following are the current rules for iptables:</h1>
-    <br>
-    <br>
-    <br>
-    <p>" > rules.html
-            #echo $(sudo iptables -L --line-number) >> rules.html
-            for i in {1..100}
-            do
-              echo "$(sudo iptables -L --line-number)" | sed -n "$i"p >> rules.html
+<h1>The following are the current rules for iptables:</h1>
+<br>
+<br>
+<br>"> rules.html
+            num=1
+            echo "$(sudo iptables -L --line-number)" | while read line; do
+                if (($num==2));then
+                    echo "<p id=\"lables\">" >> rules.html
+                fi
+                if (($num==1));then
+                    echo "<div id=\"para\">" >> rules.html
+                    echo "<p id=\"head\">" >> rules.html
+                fi
+                echo "$line" >> rules.html
                 echo "<br>" >> rules.html
+                if (($num==2));then
+                    echo "</p>" >> rules.html
+                    num=$num+1
+                fi
+                if (($num==1));then
+                    echo "</p>" >> rules.html
+                    num=$num+1
+                fi
+                if [ -z "$line" ]; then
+                    echo "</div>" >> rules.html
+                    echo "<br>" >> rules.html
+                    num=1
+                fi
             done
             echo "</p>
 </body>
 </html>" >> rules.html
+            firefox rules.html
         fi
         if (($REPLY == 5 )); then
           printf "This is a wrapper script for iptables. It is intended to make it easier to make and delete rules.\n\n
@@ -262,6 +293,9 @@ To use, simply answer the questions by answering the number from the that corres
 When prompted to enter a specific term such as an ip address, simply type out the term and hit enter.\n\n"
         fi
         if (($REPLY == 6 )); then
+            echo "saving changes..."
+            sudo /sbin/iptables-save
+            clear
             echo "Goodbye..."
             exit 0
         fi
@@ -269,6 +303,3 @@ When prompted to enter a specific term such as an ip address, simply type out th
         echo "invalid input"
     fi
 done
-echo "saving changes..."
-#sudo /sbin/iptables-save
-exit 0
