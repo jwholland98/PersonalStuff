@@ -1,4 +1,3 @@
-//import * as THREE from '/three.js-master/build/three.module.js';
 
 var scene, camera, renderer;
 function init(){
