@@ -1,0 +1,172 @@
+Final will be on May 12 for 2 hrs available from 8am-11:59pm
+	100% multiple choice (Fact Based) Comprehensive
+		60 multiple choice questions
+Only chapters we walked through are on the test
+May 12 11:59pm all assigments/projects are due
+Chapter 4:
+	Process
+		What a process is compared to a thread
+		Context Switch for a process
+			We experimented with a Context switch for a thread
+Chapter 5: ***
+		fork
+			return value fork
+		Fork Bomb
+Chapter 6:
+		Direct Execution
+			Don't want to have to recompile to execute a program
+			 [code]
+			 [data]
+			 [heap]
+			   |
+			   V
+			   ^
+			   |
+			 [stack]
+Chapter 7:
+		Scheduling
+			Perfect would allow perfect scheduling
+			Easy simple approaches usually have
+				to have some fixes
+			Complicated approaches because of
+				imperfect knowledge
+Chapter 8:
+		One interesting scheduling approach
+			ML  queue highest
+				queue slightly lower
+				queue less 
+				queue lowest
+		I/O operation that is obvious we should 
+			queue a process or thread
+Chapter 9:
+		Another interesting sheduling approach
+Chapter 13:
+		History to the "executable footprint"
+			 [code]
+			 [data]
+			 [heap]
+			   |
+			   V
+			   ^
+			   |
+			 [stack]
+Chapter 14: ***
+		Memory API
+			malloc, free 
+				new, delete C++
+				forced them to use MyMalloc, MyFree
+			malloc hook
+			Tools for finding memory leaks
+Chapter 15:
+		Direct Execution the executable could
+			be located anywhere in actual address space
+Chapter 16:
+		Segmentation
+			Get further away from actual memory 
+			versus the idealized "Executable footprint"
+			Some upper bits are the segment
+			x86 shifting 4 bits add 
+				cs<<4+ip
+				cs<<8+ip
+				ecs<<16+eip
+		seg-fault
+Chapter 17:
+		Free space Management
+			Free-List
+			Space efficient but quick to find space
+Chapter 18:  
+		Paging
+			Subdivision of memory for purpose of speed
+			persisting them out to disk
+			Permissions,  read/write/execute
+Chapter 19:
+		Translation LookAside Buffers
+			Implementation of Segment and Paging
+Chapter 20:
+		Additional paging technique
+Chapter 21:
+			Trading disk space for memory space
+			swappiness  when to start using swap?
+Chapter 22:
+			LRU least recently used
+Chapter 23: Complete VM system
+		Summary chapter of all the orange
+Chapter 26:
+		Threads (vs Processes)
+		Shared
+			Code, Data and Heap with different stack
+Chapter 27: ***
+		Pthread library
+		Should be able to interpret api for threads
+			locks, and condition variable
+Chapter 28:  Formal introduction to locks
+		Why do I need locks, cond variables ...
+			Context Switch can occurr anytime anywhere
+				How to you make sure
+				code correctly computes
+		Critical Section
+		lock, unlock
+Chapter 29:
+		Demonstration of how to lock ADT you should 
+			know
+Chapter 30: Condition Variables
+		signal, wait
+			wait for a signal
+			send a signal
+Chapter 31: Semaphores
+		wait for a sign (semaphores)
+		post post a sign
+		Binary Semaphore  -> Lock
+Chapter 32: 
+		Built it all now what could go wrong
+			Giving names to what could go wrong
+		Deadlock (Dining Philosophers)
+			needing two resources before you proceed
+		LiveLock (busily trying to get to critical section)
+		Other concurrency issues might be more 
+		frequent that Deadlock.
+Chapter 33:
+		Event based Concurrency
+			Async world of Node.js
+Chapter 36:
+		I/O Devices
+			Character 		vs Block
+			Single register vs DMA
+			Interrupt
+				hardware forcing a function call
+					Interrupt handler should be fast
+					and get control back to program
+			Direct Memory Access
+				Bulk data moved between device and 
+				  memory
+			Device bridges between kernel and user
+Chapter 37:
+		Disk Drives 
+			Track, Sector, Seeking
+			Seek time which
+				head moving to track
+				data spinning around to be under the
+				head
+Chapter 38: RAID
+		Redundancy
+		Performance
+Chapter 39:
+		Files and directories
+			dirent  important library
+			stat	information about the files
+Chapter 40:  Formal idea and walkthrough the filesystem
+		Inode, IBitmap, DBitmap, structures
+Chapter 44:
+		Understand wear leveling and issues with 
+		SSD block organization, blank page
+		Make it act like old spinning disk		
+Chapter 42:  -- Not on test
+		FSCK checking file system errors
+		
+			
+			
+			
+	
+		
+
+			
