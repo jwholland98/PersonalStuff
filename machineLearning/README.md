@@ -1,0 +1,1 @@
+If on WSL, add "export DISPLAY=localhost:0.0" to ~/bashrc and run XLaunch
