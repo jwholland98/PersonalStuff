@@ -3,10 +3,10 @@ import sys
 def copy(inf, outf):
     ifile = open(inf, "rb")
     ofile = open(outf, "wb")
-    byte = ifile.read(1)
+    byte = ifile.read(1024)
     while byte:
         ofile.write(byte)
-        byte = ifile.read(1)
+        byte = ifile.read(1024)
 
 def main():
     if len(sys.argv) < 3:
