@@ -1,0 +1,5 @@
+- Start protocol with each line having JH
+- have a code following for what the user wants to do
+- start with reverse shell
+- if time allows, add other things like ftp
+- talk to MacEvoy about elliptical curves
