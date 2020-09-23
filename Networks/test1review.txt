@@ -1,0 +1,83 @@
+- Sept 19 - 20
+- Test 1
+
+- 25 questions
+    - ISO networks
+    - Physical
+            -RS-232
+            -9600 bits per some baud
+            - 8-N-1
+                - shows how the data is sent
+                - for above, it means start bit, 8 bits of data, no odd or even bit, and 1 stop bit; total: 10
+                - Another example would be: 7-E-2
+                    - start bit, 7 bits of data, even bit, and 2 stop bits; total: 11
+            - transmit time for 1024 bytes
+                    9600 bps/(8 + 1(start bit) + 1(stop bit that comes from 8-N-*1*)) = 960 Bps
+                    960 Bps/1024 Bps = answer
+
+            - 100 Mbps = megabits per second
+                - B = bytes
+                - b = bits
+                - Sources of Distortion
+            - there will be some data loss no matter the method
+                - Electricomagnetic
+                - Resistance wire
+                - Radio Interference
+            - There is a speed limit to wires i.e. some are faster than others (fourier spreadsheet)
+            - Data Link layer should detect and correct the errors
+                - talk slower on the wire is one solution
+            - Sources of Distortion
+                - there will be some data loss no matter the method
+                    - Electricomagnetic
+                    - Resistance wire
+                    - Radio Interference
+                - There is a speed limit to wires i.e. some are faster than others (fourier spreadsheet)
+                - Data Link layer should detect and correct the errors
+                    - talk slower on the wire is one solution
+            - Transmission Techniques
+                - AM
+                - FM
+                - AM - FM grid
+                - AGC
+                    - Automatic Gain Control - automatic adjusts signal to ensure a suitable amplitude for output
+                - Preamble networks
+                    - Start RS-232
+                - synchronous vs Asynchronous:
+                    - synchronous shares a clock, Asynchronous does not
+                - RS-232 - AKA - UART - AKA
+                    - TX
+                        - transmit wire
+                    - RX
+                        - recieve wire
+                    - Asynchronous (we have to agree on the seed in which we talk to it - think arduino)
+                - SPI   
+                    - MISO
+                    - MOSI
+                    - CLK
+                    - ChipSelect
+                    - memory
+                        - sd card
+                    - synchronous
+                - I2C
+                    - GND
+                    - CLK
+                    - data
+                    - address
+                    - sensors
+                    - synchronous
+                - serial
+                - parity bits
+    - Data link layer
+        - CRC - checksum - parity bit
+        - quality checksum
+            - RS-232 parity check
+            - 2 dimensional parity check
+                - detect and correct errors
+                - could detect up to 2 errors and correct if only one error is made
+            - xor checksum
+            - Cyclical Redundancy Check
+                - CRC and CRC-32
+                - input
+                - polynomial
+            
+        
