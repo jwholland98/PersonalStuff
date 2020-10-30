@@ -1,0 +1,93 @@
+25-30 Questions Multiple Choice D2L
+From Tuesday 20th to 9:00am 21st
+20-30 minutes appr.
+Vocabulary about networks
+Honesty is the best policy
+No notes test
+*** Marks content not on test
+
+Network Layer
+
+UDP (DATAGRAM)
+    Send/Recv
+    Bind  -  This app is using a particular port as a server
+    roll your own FTP bycopying a file over the network
+
+TCP ***   Stream
+    listen  -  server pauses waiting for connections
+    Bind
+    read/write (names for send/recv in tcp)
+
+UDP and TCP
+    UDP send packet over network and "hope" it gets there
+    TCP (built on UDP) enforces order and resend lost packets
+
+Port Numbers
+    0-1023 Must be Admin(root) user to bind them
+    1024-65535 Free-for-all
+
+Pings Port Number?  - No port number
+    time for packets to arrive
+
+DNS
+    Domain Name Service ***
+    Converts human names (URL) to ip addresses
+        www.google.com -> 172.72.67.3
+        gethostbyname -> dev interface to DNS
+
+DHCP
+    Dynamic Host Configuration Protocol ***
+    Automatic way of assigning ip address to machine
+    DHCP Server - window of IP addresses to hand out
+        Network Mask
+            255.255.255.0
+            255.255.0.0
+        Gateway Address
+
+Static IP 
+    DHCP is not used to assign but is directly configured on the machine
+
+Modify network settings on Linux/Mac/Unix
+    /etc/network/interfaces
+
+Consumer Term "router"
+    WiFi Access point...DNS...DHCP...Firewall...NAT...Webserver...
+
+Idustrial "Router"
+    The software that routes packets from WAN to and from LAN
+
+WAN
+    Wide Area Network
+
+LAN 
+    Local Area Network
+    The machines that all share an IP space
+    192.168.1.???
+
+NAT
+    Network Address Translation
+    The WAN IP address is not the same as LAN IP address
+    Security outside people don't know number of machines (unless they respond)
+    It also delayed the IPV6 change over because you only need 4 octet addresses at highest level
+
+Firewall
+    Rejects incoming packets that were not requested
+    Stealthing a port
+        No response for unused ports
+    Punch a hole for a web server, hackers will see the Webserver
+    UPNP - Universal Plug and Play
+        WAN side ability to punch through holes in firewalls
+        LAN side was advertised
+
+Gateway
+    IP addresses of the device that will route packets to the WAN (router)
+
+After you understand UDP and TCP
+    RFC's describe protocols
+        RFC HTTP
+        RFC HTTPS
+        RFC IRC Chat
+        ...
+        (Request For Comments)
+
+VPN ***
