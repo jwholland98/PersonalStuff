@@ -48,7 +48,7 @@ def decryptECC(encryptedMsg, privkey):
 def main():
     msgFromClient = "HELLO"
     bytesToSend = encode(msgFromClient)
-    serverAddressPort = ("127.0.0.1", 8123)
+    serverAddressPort = ("192.168.100.5", 8123)
     bufferSize = 1024
     UDPClientSocket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
     UDPClientSocket.sendto(bytesToSend, serverAddressPort)

@@ -7,7 +7,7 @@ from Crypto.Cipher import AES
 import hashlib, secrets, binascii
 import pickle
 
-localIP = "127.0.0.1"
+localIP = "192.168.100.5"
 localPort = 8123
 bufferSize = 1024
 curve = registry.get_curve('brainpoolP256r1')
